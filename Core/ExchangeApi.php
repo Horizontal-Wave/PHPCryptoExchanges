@@ -3,7 +3,6 @@
 namespace PHPCryptoExchanges\Core;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\Component\Yaml\Yaml;
 
 abstract class ExchangeApi implements ExchangeApiInterface
 {
@@ -11,23 +10,15 @@ abstract class ExchangeApi implements ExchangeApiInterface
 
     protected ExchangeInterface $exchange;
 
-    protected ApiKeyInterface $apiKey;
+    protected ExchangeApiRouteInterface $exchangeApiRoute;
 
-    public function __construct(ExchangeInterface $exchange, HttpClientInterface $client, ApiKeyInterface $apiKey)
+    public function __construct(ExchangeInterface $exchange, HttpClientInterface $client)
     {
         $this->client = $client;
         $this->exchange = $exchange;
-        $this->apiKey = $apiKey;
     }
 
-    abstract public function callApi(string $endpoint, string $method = 'GET', array $params = []);
-
-    /**
-     * Function to get the config file path
-     *
-     * @return string
-     */
-    abstract protected function getConfigFilePath();
+    abstract public function callApi(string $routeName, ApiKeyInterface $apiKey, array $params = []);
 
     /**
      * Function to generate the body
@@ -44,27 +35,5 @@ abstract class ExchangeApi implements ExchangeApiInterface
         }
 
         return http_build_query($params);
-    }
-
-    /**
-     * Function to find the config route
-     *
-     * @param string $endpoint
-     * @param string $method
-     * @return array|null
-     */
-    protected function findRouteConfig(string $endpoint, string $method)
-    {
-        $url = $this->getConfigFilePath();
-
-        $configs = Yaml::parseFile($url);
-
-        foreach ($configs['routes'] as $route) {
-            if ($endpoint === $route['route'] && $method === $route['method']) {
-                return $route;
-            }
-        }
-
-        throw new \ConfigFileNotFoundException($this->exchange->getName());
     }
 }
