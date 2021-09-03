@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPCryptoExchanges\Core;
+namespace CryptoExchanges\Core;
 
 interface ExchangeApiInterface
 {

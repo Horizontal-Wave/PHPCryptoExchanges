@@ -1,12 +1,12 @@
 <?php
 
-namespace PHPCryptoExchanges\Binance;
+namespace CryptoExchanges\Binance;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use PHPCryptoExchanges\Core\RouteConfigNotFoundException;
-use PHPCryptoExchanges\Core\ExchangeInterface;
-use PHPCryptoExchanges\Core\ExchangeApi;
-use PHPCryptoExchanges\Core\ApiKeyInterface;
+use CryptoExchanges\Core\RouteConfigNotFoundException;
+use CryptoExchanges\Core\ExchangeInterface;
+use CryptoExchanges\Core\ExchangeApi;
+use CryptoExchanges\Core\ApiKeyInterface;
 
 class BinanceApi extends ExchangeApi
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace PHPCryptoExchanges\Binance;
+namespace CryptoExchanges\Binance;
 
-use PHPCryptoExchanges\Core\ExchangeApiRouteInterface;
+use CryptoExchanges\Core\ExchangeApiRouteInterface;
 
 class BinanceApiRoute implements ExchangeApiRouteInterface 
 {
