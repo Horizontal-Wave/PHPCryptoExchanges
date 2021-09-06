@@ -2,9 +2,7 @@
 
 namespace CryptoExchanges\Binance\Spot;
 
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 use CryptoExchanges\Core\RouteConfigNotFoundException;
-use CryptoExchanges\Core\ExchangeInterface;
 use CryptoExchanges\Core\ExchangeApi;
 use CryptoExchanges\Core\ApiKeyInterface;
 
@@ -14,7 +12,7 @@ class BinanceSpotApi extends ExchangeApi
 
     public function callApi(string $routeName, ApiKeyInterface $apiKey, array $params = [])
     {
-        $routeConfig = $this->exchangeApiRoute->getRoutes()[$routeName];
+        $routeConfig = $this->fetchConfig()['name'][$routeName];
 
         if ($routeConfig == null) {
             throw new RouteConfigNotFoundException(self::EXCHANGE_NAME, $routeName);
@@ -53,5 +51,10 @@ class BinanceSpotApi extends ExchangeApi
     private function generateSign($data, ApiKeyInterface $apiKey)
     {
         return \hash_hmac('SHA256', $data, $apiKey->getPrivateKey());
+    }
+
+    protected function getFilePath()
+    {
+        return __DIR__ . "/binance_spot_api_v1.json";
     }
 }

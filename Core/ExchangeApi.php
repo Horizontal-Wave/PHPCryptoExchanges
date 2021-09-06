@@ -10,8 +10,6 @@ abstract class ExchangeApi implements ExchangeApiInterface
 
     protected ExchangeInterface $exchange;
 
-    protected ExchangeApiRouteInterface $exchangeApiRoute;
-
     public function __construct(ExchangeInterface $exchange, HttpClientInterface $client)
     {
         $this->client = $client;
@@ -19,6 +17,8 @@ abstract class ExchangeApi implements ExchangeApiInterface
     }
 
     abstract public function callApi(string $routeName, ApiKeyInterface $apiKey, array $params = []);
+
+    abstract protected function getFilePath();
 
     /**
      * Function to generate the body
@@ -35,5 +35,24 @@ abstract class ExchangeApi implements ExchangeApiInterface
         }
 
         return http_build_query($params);
+    }
+
+    protected function fetchConfig() 
+    {
+        $filePath = $this->getFilePath();
+
+        $data = \file_get_contents($filePath);
+
+        $json = \json_decode($data, true);
+
+        $result = [];
+
+        foreach ($json['item'] as $folder) {
+            foreach($folder as $items) {
+                $result = \array_merge($result, $items);
+            }
+        }
+
+        return $result;
     }
 }
