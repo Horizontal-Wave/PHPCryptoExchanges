@@ -1,6 +1,6 @@
 <?php
 
-namespace CryptoExchanges\Binance;
+namespace CryptoExchanges\Binance\Spot;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use CryptoExchanges\Core\RouteConfigNotFoundException;
@@ -8,15 +8,15 @@ use CryptoExchanges\Core\ExchangeInterface;
 use CryptoExchanges\Core\ExchangeApi;
 use CryptoExchanges\Core\ApiKeyInterface;
 
-class BinanceApi extends ExchangeApi
+class BinanceSpotApi extends ExchangeApi
 {
     public const EXCHANGE_NAME = "Binance";
 
-    public function __construct(ExchangeInterface $exchange, HttpClientInterface $client, BinanceApiRoute $binanceApiRoute)
+    public function __construct(ExchangeInterface $exchange, HttpClientInterface $client, BinanceSpotApiRoutes $binanceApiRoutes)
     {
         parent::__construct($exchange, $client);
 
-        $this->exchangeApiRoute = $binanceApiRoute;
+        $this->exchangeApiRoute = $binanceApiRoutes;
     }
 
     public function callApi(string $routeName, ApiKeyInterface $apiKey, array $params = [])
