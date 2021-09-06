@@ -12,13 +12,6 @@ class BinanceSpotApi extends ExchangeApi
 {
     public const EXCHANGE_NAME = "Binance";
 
-    public function __construct(ExchangeInterface $exchange, HttpClientInterface $client, BinanceSpotApiRoutes $binanceApiRoutes)
-    {
-        parent::__construct($exchange, $client);
-
-        $this->exchangeApiRoute = $binanceApiRoutes;
-    }
-
     public function callApi(string $routeName, ApiKeyInterface $apiKey, array $params = [])
     {
         $routeConfig = $this->exchangeApiRoute->getRoutes()[$routeName];

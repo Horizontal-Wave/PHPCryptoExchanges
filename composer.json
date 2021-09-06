@@ -2,6 +2,6 @@
     "require": {
         "php": ">= 8.0.0",
         "symfony/http-client": "^5.3",
-        "symfony/yaml": "^5.3"
+        "symfony/serializer": "^5.3"
     }
 }
