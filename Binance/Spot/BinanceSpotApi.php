@@ -21,7 +21,7 @@ class BinanceSpotApi extends ExchangeApi
         $requestConfig = $routeConfig['request'];
 
         $url = $this->exchange->getBaseUrl() . \join('/', $routeConfig['url']['path']);
-        $header = $this->generateHeader($routeConfig, $apiKey);
+        $header = $this->generateHeader($requestConfig['header'], $apiKey);
 
         if (isset($requestConfig['url']['query'])) {
             foreach ($requestConfig['url']['query'] as $query) {
@@ -41,14 +41,16 @@ class BinanceSpotApi extends ExchangeApi
         ]);
     }
 
-    private function generateHeader(array $data, ApiKeyInterface $apiKey)
+    private function generateHeader(array $requiredHeaders, ApiKeyInterface $apiKey)
     {
         $header = [
             'Content-Type' => 'application/json'
         ];
 
-        if ($data['apiKey'] === true) {
-            $header['X-MBX-APIKEY'] = $apiKey->getPublicKey();
+        foreach ($requiredHeaders as $requiredHeader) {
+            if ($requiredHeader['X-MBX-APIKEY']) {
+                $header['X-MBX-APIKEY'] = $apiKey->getPublicKey();
+            }
         }
 
         return $header;
