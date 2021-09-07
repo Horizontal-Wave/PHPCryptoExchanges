@@ -37,7 +37,12 @@ abstract class ExchangeApi implements ExchangeApiInterface
         return http_build_query($params);
     }
 
-    protected function fetchConfig() 
+    /**
+     * Method to fetch the routes
+     *
+     * @return array
+     */
+    protected function fetchRouteConfigs() 
     {
         $filePath = $this->getFilePath();
 

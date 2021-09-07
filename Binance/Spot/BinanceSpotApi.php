@@ -12,24 +12,30 @@ class BinanceSpotApi extends ExchangeApi
 
     public function callApi(string $routeName, ApiKeyInterface $apiKey, array $params = [])
     {
-        $routeConfig = $this->fetchConfig()['name'][$routeName];
+        $routeConfig = $this->retrieveRoute($routeName);
 
         if ($routeConfig == null) {
             throw new RouteConfigNotFoundException(self::EXCHANGE_NAME, $routeName);
         }
 
-        $url = $this->exchange->getBaseUrl() . $routeConfig['endpoint'];
+        $requestConfig = $routeConfig['request'];
+
+        $url = $this->exchange->getBaseUrl() . \join('/', $routeConfig['url']['path']);
         $header = $this->generateHeader($routeConfig, $apiKey);
 
-        if (isset($routeConfig['param']) && isset($routeConfig['param']['timestamp']) && $routeConfig['param']['timestamp'] = true) {
-            $params['timestamp'] = time() * 1000; //Add timestamp parameter
+        if (isset($requestConfig['url']['query'])) {
+            foreach ($requestConfig['url']['query'] as $query) {
+                if ($query['key'] == 'timestamp') {
+                    $params['timestamp'] = time() * 1000; //Add timestamp parameter
+                }
+
+                if ($query['key'] == 'signature') {
+                    $params['signature'] = $this->generateSign($this->urlEncode($params), $apiKey);
+                }
+            }
         }
 
-        if (isset($routeConfig['param']) && isset($routeConfig['param']['signature']) && $routeConfig['param']['signature'] = true) {
-            $params['signature'] = $this->generateSign($this->urlEncode($params), $apiKey);
-        }
-
-        return $this->client->request($routeConfig['method'], $url, [
+        return $this->client->request($requestConfig['method'], $url, [
             'headers' => $header,
             'query' => $params
         ]);
@@ -56,5 +62,23 @@ class BinanceSpotApi extends ExchangeApi
     protected function getFilePath()
     {
         return __DIR__ . "/binance_spot_api_v1.json";
+    }
+
+    private function retrieveRoute(string $routeName)
+    {
+        $routeConfigs = $this->fetchRouteConfigs();
+
+        $result = null;
+        $index = 0;
+
+        while ($result === null && $index < \count($routeConfigs)) {
+            if ($routeConfigs[$index]['name'] == $routeName) {
+                $result = $routeConfigs[$index];
+            }
+
+            $index++;
+        }
+        
+        return $result;
     }
 }
