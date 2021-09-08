@@ -21,23 +21,6 @@ abstract class ExchangeApi implements ExchangeApiInterface
     abstract protected function getFilePath();
 
     /**
-     * Function to generate the body
-     *
-     * @param array $params
-     * @return string
-     */
-    protected function urlEncode(array $params = [])
-    {
-        foreach ($params as $key => $value) {
-            if (is_bool($value)) {
-                $params[$key] = var_export($value, true);
-            }
-        }
-
-        return http_build_query($params);
-    }
-
-    /**
      * Method to fetch the routes
      *
      * @return array

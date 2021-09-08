@@ -2,13 +2,25 @@
 
 namespace CryptoExchanges\Binance\Spot;
 
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+use CryptoExchanges\Core\UrlEncoder;
 use CryptoExchanges\Core\RouteConfigNotFoundException;
+use CryptoExchanges\Core\ExchangeInterface;
 use CryptoExchanges\Core\ExchangeApi;
 use CryptoExchanges\Core\ApiKeyInterface;
 
 class BinanceSpotApi extends ExchangeApi
 {
     public const EXCHANGE_NAME = "Binance";
+
+    private UrlEncoder $urlEncoder;
+
+    public function __construct(ExchangeInterface $exchange, HttpClientInterface $client, UrlEncoder $urlEncoder)
+    {
+        parent::__construct($exchange, $client);
+        
+        $this->urlEncoder = $urlEncoder;
+    }
 
     public function callApi(string $routeName, ApiKeyInterface $apiKey, array $params = [])
     {
@@ -30,7 +42,7 @@ class BinanceSpotApi extends ExchangeApi
                 }
 
                 if ($query['key'] == 'signature') {
-                    $params['signature'] = $this->generateSign($this->urlEncode($params), $apiKey);
+                    $params['signature'] = $this->generateSign($this->urlEncoder->urlEncode($params), $apiKey);
                 }
             }
         }
