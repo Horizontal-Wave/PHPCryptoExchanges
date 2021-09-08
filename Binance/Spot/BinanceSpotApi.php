@@ -53,6 +53,11 @@ class BinanceSpotApi extends ExchangeApi
         ]);
     }
 
+    protected function getRouteConfigFilePath()
+    {
+        return __DIR__ . "/binance_spot_api_v1.json";
+    }
+
     private function generateHeader(array $requiredHeaders, ApiKeyInterface $apiKey)
     {
         $header = [
@@ -73,11 +78,6 @@ class BinanceSpotApi extends ExchangeApi
         return \hash_hmac('SHA256', $data, $apiKey->getPrivateKey());
     }
 
-    protected function getFilePath()
-    {
-        return __DIR__ . "/binance_spot_api_v1.json";
-    }
-
     private function retrieveRoute(string $routeName)
     {
         $routeConfigs = $this->fetchRouteConfigs();
@@ -94,5 +94,30 @@ class BinanceSpotApi extends ExchangeApi
         }
         
         return $result;
+    }
+
+    protected function getOpenOrderRouteName()
+    {
+        return "New Order";
+    }
+
+    protected function getCancelOrderRouteName()
+    {
+        return "Cancel Order";
+    }
+
+    protected function getQueryOrderRouteName()
+    {
+        return "Query Order (USER_DATA)";
+    }
+
+    protected function getCurrentOrderRouteName()
+    {
+        return "Current Open Orders (USER_DATA)";
+    }
+
+    protected function getAllOrderRouteName()
+    {
+        return "All Orders (USER_DATA)";
     }
 }
