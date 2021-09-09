@@ -91,6 +91,20 @@ abstract class ExchangeApi implements ExchangeApiInterface
      */
     abstract protected function getOrderBookRouteName();
 
+    /**
+     * Method to get the route name for candlestick datas
+     *
+     * @return string
+     */
+    abstract protected function getCandlestickDataRouteName();
+
+    /**
+     * Method to get the route name for current price
+     *
+     * @return string
+     */
+    abstract protected function getCurrentPriceRouteName();
+
     public function openOder(ApiKeyInterface $apiKey, array $params)
     {
         return $this->callApi($this->getOpenOrderRouteName(), $apiKey, $params);
@@ -119,5 +133,15 @@ abstract class ExchangeApi implements ExchangeApiInterface
     public function orderBook(array $params)
     {
         return $this->callApi($this->getOrderBookRouteName(), null, $params);
+    }
+
+    public function candlestickData(array $params)
+    {
+        return $this->callApi($this->getCandlestickDataRouteName(), null, $params);
+    }
+
+    public function currentPrice(array $params)
+    {
+        return $this->callApi($this->getCurrentPriceRouteName(), null, $params);
     }
 }

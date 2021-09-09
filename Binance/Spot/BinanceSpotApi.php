@@ -125,4 +125,14 @@ class BinanceSpotApi extends ExchangeApi
     {
         return "Order Book";
     }
+
+    protected function getCandlestickDataRouteName()
+    {
+        return "Kline/Candlestick Data";
+    }
+
+    protected function getCurrentPriceRouteName()
+    {
+        return "Current Average Price";
+    }
 }
