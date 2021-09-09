@@ -22,7 +22,7 @@ class BinanceSpotApi extends ExchangeApi
         $this->urlEncoder = $urlEncoder;
     }
 
-    public function callApi(string $routeName, ApiKeyInterface $apiKey, array $params = [])
+    public function callApi(string $routeName, ?ApiKeyInterface $apiKey, array $params = [])
     {
         $routeConfig = $this->retrieveRoute($routeName);
 
@@ -119,5 +119,10 @@ class BinanceSpotApi extends ExchangeApi
     protected function getAllOrderRouteName()
     {
         return "All Orders (USER_DATA)";
+    }
+
+    protected function getOrderBookRouteName()
+    {
+        return "Order Book";
     }
 }

@@ -16,7 +16,7 @@ abstract class ExchangeApi implements ExchangeApiInterface
         $this->exchange = $exchange;
     }
 
-    abstract public function callApi(string $routeName, ApiKeyInterface $apiKey, array $params = []);
+    abstract public function callApi(string $routeName, ?ApiKeyInterface $apiKey, array $params = []);
 
     /**
      * Method to get the config file path
@@ -85,41 +85,39 @@ abstract class ExchangeApi implements ExchangeApiInterface
     abstract protected function getAllOrderRouteName();
 
     /**
-     * Method to call callApi function
+     * Method to get the route name for order book
      *
-     * @param ApiKeyInterface $apiKey
-     * @param array $params
-     * @param callable $funcToGetRouteName
-     * @return void
+     * @return string
      */
-    private function processShortcut(ApiKeyInterface $apiKey, array $params, callable $funcToGetRouteName)
-    {
-        $routeName = $funcToGetRouteName();
-        return $this->callApi($routeName, $apiKey, $params);
-    }
+    abstract protected function getOrderBookRouteName();
 
     public function openOder(ApiKeyInterface $apiKey, array $params)
     {
-        return $this->processShortcut($apiKey, $params, $this->getOpenOrderRouteName);
+        return $this->callApi($this->getOpenOrderRouteName(), $apiKey, $params);
     }
 
     public function cancelOrder(ApiKeyInterface $apiKey, array $params)
     {
-        return $this->processShortcut($apiKey, $params, $this->getCancelOrderRouteName);
+        return $this->callApi($this->getCancelOrderRouteName(), $apiKey, $params);
     }
 
     public function queryOrder(ApiKeyInterface $apiKey, array $params)
     {
-        return $this->processShortcut($apiKey, $params, $this->getQueryOrderRouteName);
+        return $this->callApi($this->getQueryOrderRouteName(), $apiKey, $params);
     }
 
     public function currentOpenOrders(ApiKeyInterface $apiKey, array $params)
     {
-        return $this->processShortcut($apiKey, $params, $this->getCurrentOrderRouteName);
+        return $this->callApi($this->getCurrentOrderRouteName(), $apiKey, $params);
     }
 
     public function allOrders(ApiKeyInterface $apiKey, array $params)
     {
-        return $this->processShortcut($apiKey, $params, $this->getAllOrderRouteName);
+        return $this->callApi($this->getAllOrderRouteName(), $apiKey, $params);
+    }
+
+    public function orderBook(array $params)
+    {
+        return $this->callApi($this->getOrderBookRouteName(), null, $params);
     }
 }
