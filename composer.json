@@ -1,9 +1,17 @@
 {
-    "require": {
-        "php": ">= 8.0.0",
-        "symfony/http-client": "^5.3"
+  "require": {
+    "php": ">= 8.0.0",
+    "symfony/http-client": "^5.3"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "CryptoExchanges\\": ""
     },
-    "require-dev": {
-        "phpunit/phpunit": "^9.5"
-    }
+    "exclude-from-classmap": [
+      "/Tests/"
+    ]
+  }
 }
