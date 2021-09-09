@@ -2,6 +2,8 @@
 
 namespace CryptoExchanges\Core;
 
+use Symfony\Contracts\HttpClient\ResponseInterface;
+
 interface MarketableExchangeInterface
 {
     /**
@@ -10,7 +12,7 @@ interface MarketableExchangeInterface
      * @param array $params
      * @return ResponseInterface
      */
-    function orderBook(array $params);
+    function orderBook(array $params) : ResponseInterface;
 
     /**
      * Method to get candlestick datas of a symbol
@@ -18,7 +20,7 @@ interface MarketableExchangeInterface
      * @param array $params
      * @return ResponseInterface
      */
-    function candlestickData(array $params);
+    function candlestickData(array $params) : ResponseInterface;
 
     /**
      * Method to get the current price of a symbol
@@ -26,5 +28,5 @@ interface MarketableExchangeInterface
      * @param array $params
      * @return void
      */
-    function currentPrice(array $params);
+    function currentPrice(array $params) : ResponseInterface;
 }

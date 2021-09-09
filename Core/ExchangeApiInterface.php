@@ -14,5 +14,5 @@ interface ExchangeApiInterface extends OrderableExchangeInterface, MarketableExc
      * @param array $params
      * @return ResponseInterface
      */
-    function callApi(string $routeName, ?ApiKeyInterface $apiKey, array $params = []);
+    function callApi(string $routeName, ?ApiKeyInterface $apiKey, array $params = []) : ResponseInterface;
 }

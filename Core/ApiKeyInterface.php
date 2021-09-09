@@ -4,7 +4,7 @@ namespace CryptoExchanges\Core;
 
 interface ApiKeyInterface
 {
-    public function getPublicKey();
+    public function getPublicKey() : string;
 
-    public function getPrivateKey();
+    public function getPrivateKey() : string;
 }

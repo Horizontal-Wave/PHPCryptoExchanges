@@ -2,6 +2,8 @@
 
 namespace CryptoExchanges\Core;
 
+use Symfony\Contracts\HttpClient\ResponseInterface;
+
 interface OrderableExchangeInterface 
 {
     /**
@@ -11,7 +13,7 @@ interface OrderableExchangeInterface
      * @param array $params
      * @return ResponseInterface
      */
-    function openOder(ApiKeyInterface $apiKey, array $params);
+    function openOder(ApiKeyInterface $apiKey, array $params) : ResponseInterface;
 
     /**
      * Method to cancel a order
@@ -20,7 +22,7 @@ interface OrderableExchangeInterface
      * @param array $params
      * @return ResponseInterface
      */
-    function cancelOrder(ApiKeyInterface $apiKey, array $params);
+    function cancelOrder(ApiKeyInterface $apiKey, array $params) : ResponseInterface;
 
     /**
      * Method to query a order
@@ -29,7 +31,7 @@ interface OrderableExchangeInterface
      * @param array $params
      * @return ResponseInterface
      */
-    function queryOrder(ApiKeyInterface $apiKey, array $params);
+    function queryOrder(ApiKeyInterface $apiKey, array $params) : ResponseInterface;
 
     /**
      * Method to get current open orders
@@ -38,7 +40,7 @@ interface OrderableExchangeInterface
      * @param array $params
      * @return ResponseInterface
      */
-    function currentOpenOrders(ApiKeyInterface $apiKey, array $params);
+    function currentOpenOrders(ApiKeyInterface $apiKey, array $params) : ResponseInterface;
 
     /**
      * Method to get all orders
@@ -47,5 +49,5 @@ interface OrderableExchangeInterface
      * @param array $params
      * @return ResponseInterface
      */
-    function allOrders(ApiKeyInterface $apiKey, array $params);
+    function allOrders(ApiKeyInterface $apiKey, array $params) : ResponseInterface;
 }

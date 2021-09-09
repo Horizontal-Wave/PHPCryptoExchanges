@@ -10,7 +10,7 @@ class UrlEncoder
      * @param array $params
      * @return string
      */
-    public function urlEncode(array $params = [])
+    public function urlEncode(array $params = []) : string
     {
         foreach ($params as $key => $value) {
             if (is_bool($value)) {

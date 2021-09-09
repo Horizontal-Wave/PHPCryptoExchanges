@@ -4,7 +4,7 @@ namespace CryptoExchanges\Core;
 
 interface ExchangeInterface
 {
-    public function getBaseUrl();
+    public function getBaseUrl() : string;
 
-    public function getName();
+    public function getName() : string;
 }

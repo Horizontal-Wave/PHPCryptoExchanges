@@ -2,6 +2,7 @@
 
 namespace CryptoExchanges\Binance\Spot;
 
+use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use CryptoExchanges\Core\UrlEncoder;
 use CryptoExchanges\Core\RouteConfigNotFoundException;
@@ -22,7 +23,7 @@ class BinanceSpotApi extends ExchangeApi
         $this->urlEncoder = $urlEncoder;
     }
 
-    public function callApi(string $routeName, ?ApiKeyInterface $apiKey, array $params = [])
+    public function callApi(string $routeName, ?ApiKeyInterface $apiKey, array $params = []) : ResponseInterface
     {
         $routeConfig = $this->retrieveRoute($routeName);
 
@@ -53,12 +54,12 @@ class BinanceSpotApi extends ExchangeApi
         ]);
     }
 
-    protected function getRouteConfigFilePath()
+    protected function getRouteConfigFilePath() : string
     {
         return __DIR__ . "/binance_spot_api_v1.json";
     }
 
-    private function generateHeader(array $requiredHeaders, ApiKeyInterface $apiKey)
+    private function generateHeader(array $requiredHeaders, ApiKeyInterface $apiKey) : array
     {
         $header = [
             'Content-Type' => 'application/json'
@@ -73,12 +74,12 @@ class BinanceSpotApi extends ExchangeApi
         return $header;
     }
 
-    private function generateSign($data, ApiKeyInterface $apiKey)
+    private function generateSign($data, ApiKeyInterface $apiKey) : string
     {
         return \hash_hmac('SHA256', $data, $apiKey->getPrivateKey());
     }
 
-    private function retrieveRoute(string $routeName)
+    private function retrieveRoute(string $routeName) : array
     {
         $routeConfigs = $this->fetchRouteConfigs();
 
@@ -96,42 +97,42 @@ class BinanceSpotApi extends ExchangeApi
         return $result;
     }
 
-    protected function getOpenOrderRouteName()
+    protected function getOpenOrderRouteName() : string
     {
         return "New Order";
     }
 
-    protected function getCancelOrderRouteName()
+    protected function getCancelOrderRouteName() : string
     {
         return "Cancel Order";
     }
 
-    protected function getQueryOrderRouteName()
+    protected function getQueryOrderRouteName() : string
     {
         return "Query Order (USER_DATA)";
     }
 
-    protected function getCurrentOrderRouteName()
+    protected function getCurrentOrderRouteName() : string
     {
         return "Current Open Orders (USER_DATA)";
     }
 
-    protected function getAllOrderRouteName()
+    protected function getAllOrderRouteName() : string
     {
         return "All Orders (USER_DATA)";
     }
 
-    protected function getOrderBookRouteName()
+    protected function getOrderBookRouteName() : string
     {
         return "Order Book";
     }
 
-    protected function getCandlestickDataRouteName()
+    protected function getCandlestickDataRouteName() : string
     {
         return "Kline/Candlestick Data";
     }
 
-    protected function getCurrentPriceRouteName()
+    protected function getCurrentPriceRouteName() : string
     {
         return "Current Average Price";
     }
