@@ -42,4 +42,4 @@ composer.phar
 
 # End of https://www.toptal.com/developers/gitignore/api/phpunit,composer,visualstudiocode
 
-*.secret
+*.secret.json
