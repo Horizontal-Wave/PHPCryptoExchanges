@@ -2,7 +2,6 @@
 
 namespace CryptoExchanges\Core\Client;
 
-use Symfony\Contracts\HttpClient\ResponseInterface;
 use CryptoExchanges\Core\EntityInterfaces\ApiKeyEntityInterface;
 
 interface ExchangeApiClientInterface extends OrderableExchangeClientInterface, MarketableExchangeClientInterface
@@ -13,7 +12,7 @@ interface ExchangeApiClientInterface extends OrderableExchangeClientInterface, M
      * @param string $routeName
      * @param ApiKeyInterface $apiKey
      * @param array $params
-     * @return ResponseInterface
+     * @return array
      */
-    function callApi(string $routeName, ?ApiKeyEntityInterface $apiKey, array $params = []) : ResponseInterface;
+    function callApi(string $routeName, ?ApiKeyEntityInterface $apiKey, array $params = []) : array;
 }

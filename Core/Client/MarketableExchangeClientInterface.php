@@ -2,31 +2,29 @@
 
 namespace CryptoExchanges\Core\Client;
 
-use Symfony\Contracts\HttpClient\ResponseInterface;
-
 interface MarketableExchangeClientInterface
 {
     /**
      * Method to get order book of a symbol
      *
      * @param array $params
-     * @return ResponseInterface
+     * @return array
      */
-    function orderBook(array $params) : ResponseInterface;
+    function orderBook(array $params) : array;
 
     /**
      * Method to get candlestick datas of a symbol
      *
      * @param array $params
-     * @return ResponseInterface
+     * @return array
      */
-    function candlestickData(array $params) : ResponseInterface;
+    function candlestickData(array $params) : array;
 
     /**
      * Method to get the current price of a symbol
      *
      * @param array $params
-     * @return void
+     * @return array
      */
-    function currentPrice(array $params) : ResponseInterface;
+    function currentPrice(array $params) : array;
 }

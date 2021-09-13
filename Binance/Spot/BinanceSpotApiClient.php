@@ -6,6 +6,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use CryptoExchanges\Core\Utils\UrlEncoder;
 use CryptoExchanges\Core\Exceptions\RouteConfigNotFoundException;
+use CryptoExchanges\Core\Exceptions\ExchangeApiResponseException;
 use CryptoExchanges\Core\EntityInterfaces\ExchangeEntityInterface;
 use CryptoExchanges\Core\EntityInterfaces\ApiKeyEntityInterface;
 use CryptoExchanges\Core\Client\ExchangeApiClient;
@@ -23,7 +24,7 @@ class BinanceSpotApiClient extends ExchangeApiClient
         $this->urlEncoder = $urlEncoder;
     }
 
-    public function callApi(string $routeName, ?ApiKeyEntityInterface $apiKey, array $params = []) : ResponseInterface
+    public function callApi(string $routeName, ?ApiKeyEntityInterface $apiKey, array $params = []) : array
     {
         $routeConfig = $this->retrieveRoute($routeName);
 
@@ -48,10 +49,16 @@ class BinanceSpotApiClient extends ExchangeApiClient
             }
         }
 
-        return $this->client->request($requestConfig['method'], $url, [
+        $response = $this->client->request($requestConfig['method'], $url, [
             'headers' => $headers,
             'body' => $params
         ]);
+
+        if ($response->getStatusCode() >= 300 || $response->getStatusCode() < 200) {
+            throw new ExchangeApiResponseException($response->getStatusCode(), $this->exchange->getName(), $url);
+        }
+
+        return \json_decode($response->getContent(), true);
     }
 
     protected function getRouteConfigFilePath() : string
