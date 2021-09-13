@@ -1,9 +1,9 @@
 <?php
 
-namespace CryptoExchanges\Core\Tests;
+namespace CryptoExchanges\Core\Utils\Tests;
 
 use PHPUnit\Framework\TestCase;
-use CryptoExchanges\Core\UrlEncoder;
+use CryptoExchanges\Core\Utils\UrlEncoder;
 
 class UrlEncoderTest extends TestCase
 {
