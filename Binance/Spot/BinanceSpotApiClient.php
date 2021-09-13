@@ -34,13 +34,13 @@ class BinanceSpotApiClient extends ExchangeApiClient
 
         $requestConfig = $routeConfig['request'];
 
-        $url = $this->exchange->getBaseUrl() . \join('/', $routeConfig['url']['path']);
+        $url = $this->exchange->getBaseUrl() . "/" . \join('/', $requestConfig['url']['path']);
         $headers = $this->generateHeader($requestConfig['header'], $apiKey);
 
         if (isset($requestConfig['url']['query'])) {
             foreach ($requestConfig['url']['query'] as $query) {
                 if ($query['key'] == 'timestamp') {
-                    $params['timestamp'] = time() * 1000; //Add timestamp parameter
+                    $params['timestamp'] = round(microtime(true) * 1000); //Add timestamp parameter
                 }
 
                 if ($query['key'] == 'signature') {
@@ -51,8 +51,12 @@ class BinanceSpotApiClient extends ExchangeApiClient
 
         $response = $this->client->request($requestConfig['method'], $url, [
             'headers' => $headers,
-            'body' => $params
+            'query' => $requestConfig['method'] === 'GET' ? $params : null,
+            'body' => $requestConfig['method'] === 'GET' ? null : $params,
         ]);
+
+        $statusCode = $response->getStatusCode();
+        $content = $response->getContent(false);
 
         if ($response->getStatusCode() >= 300 || $response->getStatusCode() < 200) {
             throw new ExchangeApiResponseException($response->getStatusCode(), $this->exchange->getName(), $url);
@@ -73,7 +77,7 @@ class BinanceSpotApiClient extends ExchangeApiClient
         ];
 
         foreach ($requiredHeaders as $requiredHeader) {
-            if ($requiredHeader['X-MBX-APIKEY']) {
+            if ($requiredHeader['key'] == 'X-MBX-APIKEY') {
                 $header['X-MBX-APIKEY'] = $apiKey->getPublicKey();
             }
         }

@@ -43,8 +43,8 @@ abstract class ExchangeApiClient implements ExchangeApiClientInterface
         $result = [];
 
         foreach ($json['item'] as $folder) {
-            foreach($folder as $items) {
-                $result = \array_merge($result, $items);
+            foreach($folder['item'] as $item) {
+                \array_push($result, $item);
             }
         }
 
