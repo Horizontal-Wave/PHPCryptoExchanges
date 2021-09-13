@@ -1,8 +1,8 @@
 <?php
 
-namespace CryptoExchanges\Core;
+namespace CryptoExchanges\Core\EntityInterfaces;
 
-interface ApiKeyInterface
+interface ApiKeyEntityInterface
 {
     public function getPublicKey() : string;
 

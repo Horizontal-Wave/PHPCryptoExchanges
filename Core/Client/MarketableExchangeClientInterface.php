@@ -1,10 +1,10 @@
 <?php
 
-namespace CryptoExchanges\Core;
+namespace CryptoExchanges\Core\Client;
 
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-interface MarketableExchangeInterface
+interface MarketableExchangeClientInterface
 {
     /**
      * Method to get order book of a symbol

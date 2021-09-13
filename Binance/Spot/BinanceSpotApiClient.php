@@ -4,26 +4,26 @@ namespace CryptoExchanges\Binance\Spot;
 
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use CryptoExchanges\Core\UrlEncoder;
-use CryptoExchanges\Core\RouteConfigNotFoundException;
-use CryptoExchanges\Core\ExchangeInterface;
-use CryptoExchanges\Core\ExchangeApi;
-use CryptoExchanges\Core\ApiKeyInterface;
+use CryptoExchanges\Core\Utils\UrlEncoder;
+use CryptoExchanges\Core\Exceptions\RouteConfigNotFoundException;
+use CryptoExchanges\Core\EntityInterfaces\ExchangeEntityInterface;
+use CryptoExchanges\Core\EntityInterfaces\ApiKeyEntityInterface;
+use CryptoExchanges\Core\Client\ExchangeApiClient;
 
-class BinanceSpotApi extends ExchangeApi
+class BinanceSpotApiClient extends ExchangeApiClient
 {
     public const EXCHANGE_NAME = "Binance";
 
     private UrlEncoder $urlEncoder;
 
-    public function __construct(ExchangeInterface $exchange, HttpClientInterface $client, UrlEncoder $urlEncoder)
+    public function __construct(ExchangeEntityInterface $exchange, HttpClientInterface $client, UrlEncoder $urlEncoder)
     {
         parent::__construct($exchange, $client);
         
         $this->urlEncoder = $urlEncoder;
     }
 
-    public function callApi(string $routeName, ?ApiKeyInterface $apiKey, array $params = []) : ResponseInterface
+    public function callApi(string $routeName, ?ApiKeyEntityInterface $apiKey, array $params = []) : ResponseInterface
     {
         $routeConfig = $this->retrieveRoute($routeName);
 
@@ -34,7 +34,7 @@ class BinanceSpotApi extends ExchangeApi
         $requestConfig = $routeConfig['request'];
 
         $url = $this->exchange->getBaseUrl() . \join('/', $routeConfig['url']['path']);
-        $header = $this->generateHeader($requestConfig['header'], $apiKey);
+        $headers = $this->generateHeader($requestConfig['header'], $apiKey);
 
         if (isset($requestConfig['url']['query'])) {
             foreach ($requestConfig['url']['query'] as $query) {
@@ -49,8 +49,8 @@ class BinanceSpotApi extends ExchangeApi
         }
 
         return $this->client->request($requestConfig['method'], $url, [
-            'headers' => $header,
-            'query' => $params
+            'headers' => $headers,
+            'body' => $params
         ]);
     }
 
@@ -59,7 +59,7 @@ class BinanceSpotApi extends ExchangeApi
         return __DIR__ . "/binance_spot_api_v1.json";
     }
 
-    private function generateHeader(array $requiredHeaders, ApiKeyInterface $apiKey) : array
+    private function generateHeader(array $requiredHeaders, ApiKeyEntityInterface $apiKey) : array
     {
         $header = [
             'Content-Type' => 'application/json'
@@ -74,7 +74,7 @@ class BinanceSpotApi extends ExchangeApi
         return $header;
     }
 
-    private function generateSign($data, ApiKeyInterface $apiKey) : string
+    private function generateSign($data, ApiKeyEntityInterface $apiKey) : string
     {
         return \hash_hmac('SHA256', $data, $apiKey->getPrivateKey());
     }

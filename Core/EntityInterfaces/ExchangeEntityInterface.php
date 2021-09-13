@@ -1,8 +1,8 @@
 <?php
 
-namespace CryptoExchanges\Core;
+namespace CryptoExchanges\Core\EntityInterfaces;
 
-interface ExchangeInterface
+interface ExchangeEntityInterface
 {
     public function getBaseUrl() : string;
 

@@ -1,23 +1,25 @@
 <?php
 
-namespace CryptoExchanges\Core;
+namespace CryptoExchanges\Core\Client;
 
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use CryptoExchanges\Core\EntityInterfaces\ExchangeEntityInterface;
+use CryptoExchanges\Core\EntityInterfaces\ApiKeyEntityInterface;
 
-abstract class ExchangeApi implements ExchangeApiInterface
+abstract class ExchangeApiClient implements ExchangeApiClientInterface
 {
     protected HttpClientInterface $client;
 
-    protected ExchangeInterface $exchange;
+    protected ExchangeEntityInterface $exchange;
 
-    public function __construct(ExchangeInterface $exchange, HttpClientInterface $client)
+    public function __construct(ExchangeEntityInterface $exchange, HttpClientInterface $client)
     {
         $this->client = $client;
         $this->exchange = $exchange;
     }
 
-    abstract public function callApi(string $routeName, ?ApiKeyInterface $apiKey, array $params = []) : ResponseInterface;
+    abstract public function callApi(string $routeName, ?ApiKeyEntityInterface $apiKey, array $params = []) : ResponseInterface;
 
     /**
      * Method to get the config file path
@@ -106,27 +108,27 @@ abstract class ExchangeApi implements ExchangeApiInterface
      */
     abstract protected function getCurrentPriceRouteName();
 
-    public function openOder(ApiKeyInterface $apiKey, array $params)  : ResponseInterface
+    public function openOder(ApiKeyEntityInterface $apiKey, array $params)  : ResponseInterface
     {
         return $this->callApi($this->getOpenOrderRouteName(), $apiKey, $params);
     }
 
-    public function cancelOrder(ApiKeyInterface $apiKey, array $params)  : ResponseInterface
+    public function cancelOrder(ApiKeyEntityInterface $apiKey, array $params)  : ResponseInterface
     {
         return $this->callApi($this->getCancelOrderRouteName(), $apiKey, $params);
     }
 
-    public function queryOrder(ApiKeyInterface $apiKey, array $params)  : ResponseInterface
+    public function queryOrder(ApiKeyEntityInterface $apiKey, array $params)  : ResponseInterface
     {
         return $this->callApi($this->getQueryOrderRouteName(), $apiKey, $params);
     }
 
-    public function currentOpenOrders(ApiKeyInterface $apiKey, array $params)  : ResponseInterface
+    public function currentOpenOrders(ApiKeyEntityInterface $apiKey, array $params)  : ResponseInterface
     {
         return $this->callApi($this->getCurrentOrderRouteName(), $apiKey, $params);
     }
 
-    public function allOrders(ApiKeyInterface $apiKey, array $params) : ResponseInterface
+    public function allOrders(ApiKeyEntityInterface $apiKey, array $params) : ResponseInterface
     {
         return $this->callApi($this->getAllOrderRouteName(), $apiKey, $params);
     }

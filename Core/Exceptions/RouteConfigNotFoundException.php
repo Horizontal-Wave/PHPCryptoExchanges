@@ -1,6 +1,6 @@
 <?php
 
-namespace CryptoExchanges\Core;
+namespace CryptoExchanges\Core\Exceptions;
 
 class RouteConfigNotFoundException extends \Exception 
 {
