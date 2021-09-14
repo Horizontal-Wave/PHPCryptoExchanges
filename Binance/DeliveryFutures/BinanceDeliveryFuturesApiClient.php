@@ -1,14 +1,14 @@
 <?php
 
-namespace CryptoExchanges\Binance\PerpetualFutures;
+namespace CryptoExchanges\Binance\DeliveryFutures;
 
 use CryptoExchanges\Binance\BinanceApiClient;
 
-class BinancePerpetualFuturesApiClient extends BinanceApiClient
+class BinanceDeliveryFuturesApiClient extends BinanceApiClient
 {
     protected function getRouteConfigFilePath(): string
     {
-        return __DIR__ . "/binance_perpetual_future_api_v1.json";
+        return __DIR__ . "/binance_delivery_future_api_v1.json";
     }
 
     protected function getOpenOrderRouteName(): string
