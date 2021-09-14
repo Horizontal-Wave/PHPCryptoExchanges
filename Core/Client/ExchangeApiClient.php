@@ -100,13 +100,6 @@ abstract class ExchangeApiClient implements ExchangeApiClientInterface
      */
     abstract protected function getCandlestickDataRouteName() : string;
 
-    /**
-     * Method to get the route name for current price
-     *
-     * @return string
-     */
-    abstract protected function getCurrentPriceRouteName();
-
     public function openOder(ApiKeyEntityInterface $apiKey, string $symbol, string $side, string $type, array $otherParams)  : array
     {
         $otherParams['symbol'] = $symbol;
@@ -155,12 +148,5 @@ abstract class ExchangeApiClient implements ExchangeApiClientInterface
         $otherParams['interval'] = $interval;
         
         return $this->callApi($this->getCandlestickDataRouteName(), null, $otherParams);
-    }
-
-    public function currentPrice(string $symbol, array $otherParams) : array
-    {
-        $otherParams['symbol'] = $symbol;
-        
-        return $this->callApi($this->getCurrentPriceRouteName(), null, $otherParams);
     }
 }

@@ -22,13 +22,4 @@ interface MarketableExchangeClientInterface
      * @return array
      */
     function candlestickData(string $symbol, string $interval, array $otherParams) : array;
-
-    /**
-     * Method to get the current price of a symbol
-     *
-     * @param string $symbol
-     * @param array $otherParams
-     * @return array
-     */
-    function currentPrice(string $symbol, array $otherParams) : array;
 }
