@@ -50,4 +50,9 @@ class BinanceSpotApiClient extends BinanceApiClient
     {
         return "Current Average Price";
     }
+
+    protected function getExchangeInformationRouteName(): string
+    {
+        return "Exchange Information";
+    }
 }

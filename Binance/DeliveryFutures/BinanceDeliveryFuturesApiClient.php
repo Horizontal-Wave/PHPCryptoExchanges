@@ -45,4 +45,9 @@ class BinanceDeliveryFuturesApiClient extends BinanceApiClient
     {
         return "Kline/Candlestick Data (MARKET_DATA)";
     }
+
+    protected function getExchangeInformationRouteName(): string
+    {
+        return "Exchange Information (MARKET_DATA)";
+    }
 }
