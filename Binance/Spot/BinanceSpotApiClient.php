@@ -2,7 +2,6 @@
 
 namespace CryptoExchanges\Binance\Spot;
 
-use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use CryptoExchanges\Core\Utils\UrlEncoder;
 use CryptoExchanges\Core\Exceptions\RouteConfigNotFoundException;
