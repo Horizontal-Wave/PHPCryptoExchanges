@@ -52,11 +52,13 @@ abstract class BinanceApiClient extends ExchangeApiClient
             'body' => $requestConfig['method'] === 'GET' ? null : $params,
         ]);
 
+        $content = \json_decode($response->getContent(false), true);
+
         if ($response->getStatusCode() >= 300 || $response->getStatusCode() < 200) {
-            throw new ExchangeApiResponseException($response->getStatusCode(), $this->exchange->getName(), $url);
+            throw new ExchangeApiResponseException($response->getStatusCode(), $this->exchange->getName(), $url, $content['msg']);
         }
 
-        return \json_decode($response->getContent(), true);
+        return $content;
     }
 
     private function generateHeader(array $requiredHeaders, ?ApiKeyEntityInterface $apiKey): array
