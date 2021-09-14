@@ -7,24 +7,28 @@ interface MarketableExchangeClientInterface
     /**
      * Method to get order book of a symbol
      *
-     * @param array $params
+     * @param string $symbol
+     * @param array $otherParams
      * @return array
      */
-    function orderBook(array $params) : array;
+    function orderBook(string $symbol, array $otherParams) : array;
 
     /**
      * Method to get candlestick datas of a symbol
      *
-     * @param array $params
+     * @param string $symbol
+     * @param string $interval
+     * @param array $otherParams
      * @return array
      */
-    function candlestickData(array $params) : array;
+    function candlestickData(string $symbol, string $interval, array $otherParams) : array;
 
     /**
      * Method to get the current price of a symbol
      *
-     * @param array $params
+     * @param string $symbol
+     * @param array $otherParams
      * @return array
      */
-    function currentPrice(array $params) : array;
+    function currentPrice(string $symbol, array $otherParams) : array;
 }

@@ -132,18 +132,25 @@ abstract class ExchangeApiClient implements ExchangeApiClientInterface
         return $this->callApi($this->getAllOrderRouteName(), $apiKey, $params);
     }
 
-    public function orderBook(array $params) : array
+    public function orderBook(string $symbol, array $otherParams) : array
     {
-        return $this->callApi($this->getOrderBookRouteName(), null, $params);
+        $otherParams['symbol'] = $symbol;
+
+        return $this->callApi($this->getOrderBookRouteName(), null, $otherParams);
     }
 
-    public function candlestickData(array $params) : array
+    public function candlestickData(string $symbol, string $interval, array $otherParams) : array
     {
-        return $this->callApi($this->getCandlestickDataRouteName(), null, $params);
+        $otherParams['symbol'] = $symbol;
+        $otherParams['interval'] = $interval;
+        
+        return $this->callApi($this->getCandlestickDataRouteName(), null, $otherParams);
     }
 
-    public function currentPrice(array $params) : array
+    public function currentPrice(string $symbol, array $otherParams) : array
     {
-        return $this->callApi($this->getCurrentPriceRouteName(), null, $params);
+        $otherParams['symbol'] = $symbol;
+        
+        return $this->callApi($this->getCurrentPriceRouteName(), null, $otherParams);
     }
 }
