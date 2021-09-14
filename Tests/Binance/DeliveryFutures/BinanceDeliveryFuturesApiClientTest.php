@@ -56,7 +56,7 @@ class BinanceDeliveryFuturesApiClientTest extends TestCase
     public function testAllOrders() : void
     {
         try {
-            $orders = $this->binanceDeliveryFuturesApiClient->allOrders($this->apiKeyEntity, "BTCUSDT", []);
+            $orders = $this->binanceDeliveryFuturesApiClient->allOrders($this->apiKeyEntity, "BTCUSD_PERP", []);
             
             $this->assertIsArray($orders);
         } catch (ExchangeApiResponseException $e) {
@@ -67,7 +67,7 @@ class BinanceDeliveryFuturesApiClientTest extends TestCase
     public function testCandlestickData() : void
     {
         try {
-            $datas = $this->binanceDeliveryFuturesApiClient->candlestickData("BTCUSDT", '1m', []);
+            $datas = $this->binanceDeliveryFuturesApiClient->candlestickData("BTCUSD_PERP", '1m', []);
 
             $this->assertGreaterThan(0, \count($datas));
         } catch (ExchangeApiResponseException $e) {
@@ -78,7 +78,7 @@ class BinanceDeliveryFuturesApiClientTest extends TestCase
     public function testOrderBook() : void 
     {
         try {
-            $datas = $this->binanceDeliveryFuturesApiClient->orderBook("BTCUSDT", []);
+            $datas = $this->binanceDeliveryFuturesApiClient->orderBook("BTCUSD_PERP", []);
 
             $this->assertIsArray($datas);
         } catch (ExchangeApiResponseException $e) {
@@ -90,6 +90,17 @@ class BinanceDeliveryFuturesApiClientTest extends TestCase
     {
         try {
             $openOrders = $this->binanceDeliveryFuturesApiClient->currentOpenOrders($this->apiKeyEntity, []);
+
+            $this->assertIsArray($openOrders);
+        } catch (ExchangeApiResponseException $e) {
+            $this->fail($e->getMessage());
+        }
+    }
+
+    public function testExchangeInformation(): void
+    {
+        try {
+            $openOrders = $this->binanceDeliveryFuturesApiClient->exchangeInformation([]);
 
             $this->assertIsArray($openOrders);
         } catch (ExchangeApiResponseException $e) {

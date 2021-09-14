@@ -96,4 +96,15 @@ class BinancePerpetualFuturesApiClientTest extends TestCase
             $this->fail($e->getMessage());
         }
     }
+
+    public function testExchangeInformation(): void
+    {
+        try {
+            $openOrders = $this->binancePerpetualFuturesApiClient->exchangeInformation([]);
+
+            $this->assertIsArray($openOrders);
+        } catch (ExchangeApiResponseException $e) {
+            $this->fail($e->getMessage());
+        }
+    }
 }
