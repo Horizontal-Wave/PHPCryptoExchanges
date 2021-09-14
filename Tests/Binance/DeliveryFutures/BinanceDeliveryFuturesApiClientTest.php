@@ -41,7 +41,7 @@ class BinanceDeliveryFuturesApiClientTest extends TestCase
 
         // Mock apiKeyEntity
 
-        $fileContent = \json_decode(\file_get_contents(__DIR__ . "/apiKeys.secret.json"), true);
+        $fileContent = \json_decode(\file_get_contents(dirname(__DIR__) . "/apiKeys.secret.json"), true);
         
         /**
          * @var MockObject
