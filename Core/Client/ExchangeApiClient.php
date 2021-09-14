@@ -107,19 +107,27 @@ abstract class ExchangeApiClient implements ExchangeApiClientInterface
      */
     abstract protected function getCurrentPriceRouteName();
 
-    public function openOder(ApiKeyEntityInterface $apiKey, array $params)  : array
+    public function openOder(ApiKeyEntityInterface $apiKey, string $symbol, string $side, string $type, array $otherParams)  : array
     {
-        return $this->callApi($this->getOpenOrderRouteName(), $apiKey, $params);
+        $otherParams['symbol'] = $symbol;
+        $otherParams['side'] = $side;
+        $otherParams['type'] = $type;
+
+        return $this->callApi($this->getOpenOrderRouteName(), $apiKey, $otherParams);
     }
 
-    public function cancelOrder(ApiKeyEntityInterface $apiKey, array $params)  : array
+    public function cancelOrder(ApiKeyEntityInterface $apiKey, string $symbol, array $otherParams)  : array
     {
-        return $this->callApi($this->getCancelOrderRouteName(), $apiKey, $params);
+        $otherParams['symbol'] = $symbol;
+
+        return $this->callApi($this->getCancelOrderRouteName(), $apiKey, $otherParams);
     }
 
-    public function queryOrder(ApiKeyEntityInterface $apiKey, array $params)  : array
+    public function queryOrder(ApiKeyEntityInterface $apiKey, string $symbol, array $otherParams)  : array
     {
-        return $this->callApi($this->getQueryOrderRouteName(), $apiKey, $params);
+        $otherParams['symbol'] = $symbol;
+
+        return $this->callApi($this->getQueryOrderRouteName(), $apiKey, $otherParams);
     }
 
     public function currentOpenOrders(ApiKeyEntityInterface $apiKey, array $params)  : array
@@ -127,9 +135,11 @@ abstract class ExchangeApiClient implements ExchangeApiClientInterface
         return $this->callApi($this->getCurrentOrderRouteName(), $apiKey, $params);
     }
 
-    public function allOrders(ApiKeyEntityInterface $apiKey, array $params) : array
+    public function allOrders(ApiKeyEntityInterface $apiKey, string $symbol, array $otherParams) : array
     {
-        return $this->callApi($this->getAllOrderRouteName(), $apiKey, $params);
+        $otherParams['symbol'] = $symbol;
+
+        return $this->callApi($this->getAllOrderRouteName(), $apiKey, $otherParams);
     }
 
     public function orderBook(string $symbol, array $otherParams) : array

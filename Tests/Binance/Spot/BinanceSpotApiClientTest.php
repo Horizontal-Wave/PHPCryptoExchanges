@@ -55,12 +55,34 @@ class BinanceSpotApiClientTest extends TestCase
 
     public function testAllOrders() : void
     {
-        $orders = $this->binanceApiSpotClient->allOrders($this->apiKeyEntity, [
-            'symbol' => "BTCUSDT"
-        ]);
-
         try {
+            $orders = $this->binanceApiSpotClient->allOrders($this->apiKeyEntity, [
+                'symbol' => "BTCUSDT"
+            ]);
+            
             $this->assertGreaterThan(0, \count($orders));
+        } catch (ExchangeApiResponseException $e) {
+            $this->fail($e->getMessage());
+        }
+    }
+
+    public function testCandlestickData() : void
+    {
+        try {
+            $datas = $this->binanceApiSpotClient->candlestickData("BTCUSDT", '1m', []);
+
+            $this->assertGreaterThan(0, \count($datas));
+        } catch (ExchangeApiResponseException $e) {
+            $this->fail($e->getMessage());
+        }
+    }
+
+    public function testOrderBook() : void 
+    {
+        try {
+            $datas = $this->binanceApiSpotClient->orderBook("BTCUSDT", []);
+
+            $this->assertGreaterThan(0, \count($datas));
         } catch (ExchangeApiResponseException $e) {
             $this->fail($e->getMessage());
         }
