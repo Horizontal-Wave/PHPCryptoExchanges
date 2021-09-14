@@ -1,6 +1,6 @@
 <?php
 
-namespace CryptoExchanges\Binance\Spot\Tests;
+namespace CryptoExchanges\Binance\PerpetualFutures\Tests;
 
 use Symfony\Component\HttpClient\HttpClient;
 use PHPUnit\Framework\TestCase;
@@ -9,11 +9,11 @@ use CryptoExchanges\Core\Utils\UrlEncoder;
 use CryptoExchanges\Core\Exceptions\ExchangeApiResponseException;
 use CryptoExchanges\Core\EntityInterfaces\ExchangeEntityInterface;
 use CryptoExchanges\Core\EntityInterfaces\ApiKeyEntityInterface;
-use CryptoExchanges\Binance\Spot\BinanceSpotApiClient;
+use CryptoExchanges\Binance\PerpetualFutures\BinancePerpetualFuturesApiClient;
 
 class BinancePerpetualFuturesApiClientTest extends TestCase
 {
-    private BinanceSpotApiClient $binanceApiSpotClient;
+    private BinancePerpetualFuturesApiClient $binancePerpetualFuturesApiClient;
 
     private ApiKeyEntityInterface $apiKeyEntity;
 
@@ -29,14 +29,14 @@ class BinancePerpetualFuturesApiClientTest extends TestCase
          */
         $binanceEntityMock = $this->createMock(ExchangeEntityInterface::class);
         $binanceEntityMock->expects($this->any())->method('getName')->willReturn('Binance Perpetual Futures');
-        $binanceEntityMock->expects($this->any())->method('getBaseUrl')->willReturn('https://api.binance.com');
+        $binanceEntityMock->expects($this->any())->method('getBaseUrl')->willReturn('https://fapi.binance.com');
 
         /**
          * @var ExchangeEntityInterface
          */
         $binanceEntity = $binanceEntityMock;
 
-        $this->binanceApiSpotClient = new BinanceSpotApiClient($binanceEntity, $httpClient, $urlEncoder);
+        $this->binancePerpetualFuturesApiClient = new BinancePerpetualFuturesApiClient($binanceEntity, $httpClient, $urlEncoder);
 
 
         // Mock apiKeyEntity
@@ -56,9 +56,9 @@ class BinancePerpetualFuturesApiClientTest extends TestCase
     public function testAllOrders() : void
     {
         try {
-            $orders = $this->binanceApiSpotClient->allOrders($this->apiKeyEntity, "BTCUSDT", []);
+            $orders = $this->binancePerpetualFuturesApiClient->allOrders($this->apiKeyEntity, "BTCUSDT", []);
             
-            $this->assertGreaterThan(0, \count($orders));
+            $this->assertIsArray($orders);
         } catch (ExchangeApiResponseException $e) {
             $this->fail($e->getMessage());
         }
@@ -67,7 +67,7 @@ class BinancePerpetualFuturesApiClientTest extends TestCase
     public function testCandlestickData() : void
     {
         try {
-            $datas = $this->binanceApiSpotClient->candlestickData("BTCUSDT", '1m', []);
+            $datas = $this->binancePerpetualFuturesApiClient->candlestickData("BTCUSDT", '1m', []);
 
             $this->assertGreaterThan(0, \count($datas));
         } catch (ExchangeApiResponseException $e) {
@@ -78,9 +78,9 @@ class BinancePerpetualFuturesApiClientTest extends TestCase
     public function testOrderBook() : void 
     {
         try {
-            $datas = $this->binanceApiSpotClient->orderBook("BTCUSDT", []);
+            $datas = $this->binancePerpetualFuturesApiClient->orderBook("BTCUSDT", []);
 
-            $this->assertGreaterThan(0, \count($datas));
+            $this->assertIsArray($datas);
         } catch (ExchangeApiResponseException $e) {
             $this->fail($e->getMessage());
         }
@@ -89,7 +89,7 @@ class BinancePerpetualFuturesApiClientTest extends TestCase
     public function testCurrentOpenOrders() : void 
     {
         try {
-            $openOrders = $this->binanceApiSpotClient->currentOpenOrders($this->apiKeyEntity, []);
+            $openOrders = $this->binancePerpetualFuturesApiClient->currentOpenOrders($this->apiKeyEntity, []);
 
             $this->assertIsArray($openOrders);
         } catch (ExchangeApiResponseException $e) {
