@@ -86,17 +86,6 @@ class BinanceSpotApiClientTest extends TestCase
         }
     }
 
-    public function testCurrentPrice() : void 
-    {
-        try {
-            $currentPrice = $this->binanceApiSpotClient->currentPrice("BTCUSDT", []);
-
-            $this->assertTrue(isset($currentPrice['price']));
-        } catch (ExchangeApiResponseException $e) {
-            $this->fail($e->getMessage());
-        }
-    }
-
     public function testCurrentOpenOrders() : void 
     {
         try {
