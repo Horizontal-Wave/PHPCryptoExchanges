@@ -70,14 +70,14 @@ class BinanceSpotApiClient extends ExchangeApiClient
         return __DIR__ . "/binance_spot_api_v1.json";
     }
 
-    private function generateHeader(array $requiredHeaders, ApiKeyEntityInterface $apiKey) : array
+    private function generateHeader(array $requiredHeaders, ?ApiKeyEntityInterface $apiKey) : array
     {
         $header = [
             'Content-Type' => 'application/json'
         ];
-
+        
         foreach ($requiredHeaders as $requiredHeader) {
-            if ($requiredHeader['key'] == 'X-MBX-APIKEY') {
+            if ($requiredHeader['key'] == 'X-MBX-APIKEY' && $apiKey !== null) {
                 $header['X-MBX-APIKEY'] = $apiKey->getPublicKey();
             }
         }
