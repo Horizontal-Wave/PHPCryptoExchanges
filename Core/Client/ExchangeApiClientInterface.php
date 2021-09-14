@@ -15,4 +15,12 @@ interface ExchangeApiClientInterface extends OrderableExchangeClientInterface, M
      * @return array
      */
     function callApi(string $routeName, ?ApiKeyEntityInterface $apiKey, array $params = []) : array;
+
+    /**
+     * Method to get exchange information
+     *
+     * @param array $params
+     * @return array
+     */
+    function exchangeInformation(array $params) : array;
 }

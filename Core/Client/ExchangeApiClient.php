@@ -100,6 +100,13 @@ abstract class ExchangeApiClient implements ExchangeApiClientInterface
      */
     abstract protected function getCandlestickDataRouteName() : string;
 
+    /**
+     * Method to get the route name for exchange information
+     *
+     * @return string
+     */
+    abstract protected function getExchangeInformationRouteName() : string;
+
     public function openOder(ApiKeyEntityInterface $apiKey, string $symbol, string $side, string $type, array $otherParams)  : array
     {
         $otherParams['symbol'] = $symbol;
@@ -148,5 +155,10 @@ abstract class ExchangeApiClient implements ExchangeApiClientInterface
         $otherParams['interval'] = $interval;
         
         return $this->callApi($this->getCandlestickDataRouteName(), null, $otherParams);
+    }
+
+    public function exchangeInformation(array $params): array
+    {
+        return $this->callApi($this->getExchangeInformationRouteName(), null, $params);
     }
 }
