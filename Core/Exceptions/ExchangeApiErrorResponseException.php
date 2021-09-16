@@ -4,7 +4,7 @@ namespace CryptoExchanges\Core\Exceptions;
 
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class ExchangeApiResponseErrorException extends \Exception 
+class ExchangeApiErrorResponseException extends \Exception 
 {
     private int $statusCode;
 
