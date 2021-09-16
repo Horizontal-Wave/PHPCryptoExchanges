@@ -2,7 +2,9 @@
 
 namespace CryptoExchanges\Core\Exceptions;
 
-abstract class RateLimitException extends \Exception
+use Symfony\Contracts\HttpClient\ResponseInterface;
+
+class RateLimitException extends ExchangeApiResponseErrorException
 {
     
 }

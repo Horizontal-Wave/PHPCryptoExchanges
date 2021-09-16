@@ -2,24 +2,23 @@
 
 namespace CryptoExchanges\Core\Exceptions;
 
+use Symfony\Contracts\HttpClient\ResponseInterface;
+
 class WeightRateLimitException extends RateLimitException
 {
-    private ?int $retryAfter;
+    private int $retryAfter;
 
-    private string $clientName;
-
-    public function __construct(string $clientName, ?int $retryAfter)
+    public function __construct(string $exchangeName, string $route, ResponseInterface $response, string $retryAfterHeader)
     {
-        $this->clientName = $clientName;
-        $this->retryAfter = $retryAfter;
+        parent::__construct($exchangeName, $route, $response);
+
+        $this->retryAfter = $response->getHeaders()[$retryAfterHeader];
     }
 
-    public function getClientName() : string
-    {
-        return $this->clientName;
-    }
-
-    public function getRetryAfter() : ?int
+    /**
+     * Get the value of retryAfter
+     */ 
+    public function getRetryAfter() : int
     {
         return $this->retryAfter;
     }
